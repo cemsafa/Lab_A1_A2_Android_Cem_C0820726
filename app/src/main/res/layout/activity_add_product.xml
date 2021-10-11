@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:padding="16dp"
+    tools:context=".AddProductActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"
+        android:text="@string/add_new_product_label"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+    <EditText
+        android:id="@+id/et_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Product Name"
+        android:hint="@string/product_name_placeholder"
+        android:inputType="text"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/et_provider_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Provider Name"
+        android:hint="@string/provider_name_placeholder"
+        android:inputType="text"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/et_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Price"
+        android:hint="@string/price_placeholder"
+        android:inputType="text"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_description"
+        android:inputType="textMultiLine"
+        android:minLines="6"
+        android:maxLines="6"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        android:autofillHints="Description"
+        android:hint="@string/description_placeholder"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_addEdit_product"
+        android:layout_gravity="center"
+        android:text="@string/save_button"/>
+
+</LinearLayout>

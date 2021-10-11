@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +25,12 @@ import java.util.List;
  */
 public class ProductFragment extends Fragment implements ProductRVAdapter.OnProductClickListener {
 
-    private static final String PRODUCT_ID = "id";
+    public static final String PRODUCT_ID = "id";
     private ProductViewModel productViewModel;
-    private List<Product> productList;
 
     private RecyclerView recyclerView;
     private ProductRVAdapter productRVAdapter;
+    private LifecycleOwner lifecycleOwner;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,13 +78,14 @@ public class ProductFragment extends Fragment implements ProductRVAdapter.OnProd
         View view = inflater.inflate(R.layout.product_tab, container, false);
 
         productViewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication()).create(ProductViewModel.class);
+        lifecycleOwner = getViewLifecycleOwner();
 
         recyclerView = view.findViewById(R.id.rvProducts);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         productViewModel.getAllProducts().observe(getViewLifecycleOwner(), products -> {
-            productRVAdapter = new ProductRVAdapter(products, getActivity().getApplicationContext(), this, productViewModel);
+            productRVAdapter = new ProductRVAdapter(products, getActivity().getApplicationContext(), this, productViewModel, lifecycleOwner);
             recyclerView.setAdapter(productRVAdapter);
         });
 

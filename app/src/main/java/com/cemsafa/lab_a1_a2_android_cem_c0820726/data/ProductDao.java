@@ -55,8 +55,8 @@ public abstract class ProductDao {
     @Query("SELECT * FROM provider")
     public abstract LiveData<List<Provider>> getAllProviders();
 
-    @Query("SELECT * FROM provider WHERE name = :name")
-    public abstract LiveData<Provider> getProvider(String name);
+    @Query("SELECT * FROM provider WHERE id = :id")
+    public abstract LiveData<Provider> getProvider(long id);
 
     @Insert(onConflict = REPLACE)
     public abstract long insertProvider(Provider provider);

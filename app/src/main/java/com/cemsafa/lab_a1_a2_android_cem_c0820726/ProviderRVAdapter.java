@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
 
@@ -21,12 +23,14 @@ public class ProviderRVAdapter extends RecyclerView.Adapter<ProviderRVAdapter.Vi
     private Context context;
     private OnProviderClickListener onProviderClickListener;
     private ProductViewModel productViewModel;
+    private LifecycleOwner lifecycleOwner;
 
-    public ProviderRVAdapter(List<Provider> providerList, Context context, OnProviderClickListener onProviderClickListener, ProductViewModel productViewModel) {
+    public ProviderRVAdapter(List<Provider> providerList, Context context, OnProviderClickListener onProviderClickListener, ProductViewModel productViewModel, LifecycleOwner lifecycleOwner) {
         this.providerList = providerList;
         this.context = context;
         this.onProviderClickListener = onProviderClickListener;
         this.productViewModel = productViewModel;
+        this.lifecycleOwner = lifecycleOwner;
     }
 
     @NonNull

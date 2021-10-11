@@ -35,8 +35,8 @@ public class ProductViewModel extends AndroidViewModel {
         return repository.getProduct(id);
     }
 
-    public LiveData<Provider> getProvider(String name) {
-        return repository.getProvider(name);
+    public LiveData<Provider> getProvider(long id) {
+        return repository.getProvider(id);
     }
 
     public void insertProduct(Product product) {

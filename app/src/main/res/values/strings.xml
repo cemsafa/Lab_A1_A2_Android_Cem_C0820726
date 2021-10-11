@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Lab_A1_A2_Android_Cem_C0820726</string>
+    <string name="add_new_product_label">Add New Product</string>
+    <string name="product_name_placeholder">Product Name</string>
+    <string name="provider_name_placeholder">Provider</string>
+    <string name="price_placeholder">Price</string>
+    <string name="description_placeholder">Description</string>
+    <string name="save_button">Save</string>
 </resources>

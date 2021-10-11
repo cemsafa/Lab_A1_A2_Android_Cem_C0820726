@@ -34,7 +34,7 @@ public class ProductRepository {
         return productDao.getProduct(id);
     }
 
-    public LiveData<Provider> getProvider(String name) { return productDao.getProvider(name); }
+    public LiveData<Provider> getProvider(long id) { return productDao.getProvider(id); }
 
     public void insertProduct(Product product) {
         ProductDatabase.dbWriteExecutor.execute(() -> {

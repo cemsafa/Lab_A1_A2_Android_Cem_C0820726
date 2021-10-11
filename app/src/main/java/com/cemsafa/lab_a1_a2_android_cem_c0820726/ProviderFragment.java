@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,10 +27,10 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
 
     private static final String PROVIDER_ID = "id";
     private ProductViewModel productViewModel;
-    private List<Provider> providerList;
 
     private RecyclerView recyclerView;
     private ProviderRVAdapter providerRVAdapter;
+    private LifecycleOwner lifecycleOwner;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,13 +78,14 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
         View view = inflater.inflate(R.layout.provider_tab, container, false);
 
         productViewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication()).create(ProductViewModel.class);
+        lifecycleOwner = getViewLifecycleOwner();
 
         recyclerView = view.findViewById(R.id.rvProviders);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         productViewModel.getAllProviders().observe(getViewLifecycleOwner(), providers -> {
-            providerRVAdapter = new ProviderRVAdapter(providers, getActivity().getApplicationContext(), this, productViewModel);
+            providerRVAdapter = new ProviderRVAdapter(providers, getActivity().getApplicationContext(), this, productViewModel, lifecycleOwner);
             recyclerView.setAdapter(providerRVAdapter);
         });
 

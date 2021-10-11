@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +23,14 @@ public class ProductRVAdapter extends RecyclerView.Adapter<ProductRVAdapter.View
     private Context context;
     private OnProductClickListener onProductClickListener;
     private ProductViewModel productViewModel;
+    private LifecycleOwner lifecycleOwner;
 
-    public ProductRVAdapter(List<Product> productList, Context context, OnProductClickListener onProductClickListener, ProductViewModel productViewModel) {
+    public ProductRVAdapter(List<Product> productList, Context context, OnProductClickListener onProductClickListener, ProductViewModel productViewModel, LifecycleOwner lifecycleOwner) {
         this.productList = productList;
         this.context = context;
         this.onProductClickListener = onProductClickListener;
         this.productViewModel = productViewModel;
+        this.lifecycleOwner = lifecycleOwner;
     }
 
     @NonNull
@@ -40,17 +44,15 @@ public class ProductRVAdapter extends RecyclerView.Adapter<ProductRVAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-//        holder.providerName.setText(productViewModel.getProvider(product.getName()).getValue().getName());
+        long providerId = product.getProvider_id();
+        productViewModel.getProvider(providerId).observe(lifecycleOwner, provider -> {
+            holder.providerName.setText(provider.getName());
+        });
     }
 
     @Override
     public int getItemCount() {
         return productList.size();
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
