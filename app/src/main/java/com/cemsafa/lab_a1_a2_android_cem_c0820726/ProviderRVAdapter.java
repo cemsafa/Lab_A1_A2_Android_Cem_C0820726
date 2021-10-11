@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
@@ -39,7 +40,7 @@ public class ProviderRVAdapter extends RecyclerView.Adapter<ProviderRVAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Provider provider = providerList.get(position);
         holder.providerName.setText(provider.getName());
-        holder.productCount.setText(productViewModel.getAllProducts().getValue().size());
+//        holder.productCount.setText(productViewModel.getAllProducts().getValue().size());
     }
 
     @Override
@@ -59,7 +60,6 @@ public class ProviderRVAdapter extends RecyclerView.Adapter<ProviderRVAdapter.Vi
 
             itemView.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(View view) {

@@ -1,19 +1,35 @@
 package com.cemsafa.lab_a1_a2_android_cem_c0820726;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProviderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProviderFragment extends Fragment {
+public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnProviderClickListener {
+
+    private static final String PROVIDER_ID = "id";
+    private ProductViewModel productViewModel;
+    private List<Provider> providerList;
+
+    private RecyclerView recyclerView;
+    private ProviderRVAdapter providerRVAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +74,31 @@ public class ProviderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.provider_tab, container, false);
+        View view = inflater.inflate(R.layout.provider_tab, container, false);
+
+        productViewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication()).create(ProductViewModel.class);
+
+        recyclerView = view.findViewById(R.id.rvProviders);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        productViewModel.getAllProviders().observe(getViewLifecycleOwner(), providers -> {
+            providerRVAdapter = new ProviderRVAdapter(providers, getActivity().getApplicationContext(), this, productViewModel);
+            recyclerView.setAdapter(providerRVAdapter);
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onProviderClick(int position) {
+        providerToEdit(position);
+    }
+
+    private void providerToEdit(int position) {
+        Provider provider = productViewModel.getAllProviders().getValue().get(position);
+        Intent intent = new Intent(getActivity(), ProviderFragment.class);
+        intent.putExtra(PROVIDER_ID, provider.getId());
+        startActivity(intent);
     }
 }

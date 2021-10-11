@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
@@ -21,10 +22,11 @@ public class ProductRVAdapter extends RecyclerView.Adapter<ProductRVAdapter.View
     private OnProductClickListener onProductClickListener;
     private ProductViewModel productViewModel;
 
-    public ProductRVAdapter(List<Product> productList, Context context, OnProductClickListener onProductClickListener) {
+    public ProductRVAdapter(List<Product> productList, Context context, OnProductClickListener onProductClickListener, ProductViewModel productViewModel) {
         this.productList = productList;
         this.context = context;
         this.onProductClickListener = onProductClickListener;
+        this.productViewModel = productViewModel;
     }
 
     @NonNull
@@ -38,12 +40,17 @@ public class ProductRVAdapter extends RecyclerView.Adapter<ProductRVAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-        holder.providerName.setText(productViewModel.getProvider(product.getName()).getValue().getName());
+//        holder.providerName.setText(productViewModel.getProvider(product.getName()).getValue().getName());
     }
 
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
