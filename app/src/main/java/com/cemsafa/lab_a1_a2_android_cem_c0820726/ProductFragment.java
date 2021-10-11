@@ -1,8 +1,11 @@
 package com.cemsafa.lab_a1_a2_android_cem_c0820726;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -89,8 +93,26 @@ public class ProductFragment extends Fragment implements ProductRVAdapter.OnProd
             recyclerView.setAdapter(productRVAdapter);
         });
 
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), AddProductActivity.class);
+            launcher.launch(intent);
+        });
+
         return view;
     }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            String productName = data.getStringExtra(AddProductActivity.PRODUCT_NAME_REPLY);
+            String price = data.getStringExtra(AddProductActivity.PRICE_REPLY);
+            String description = data.getStringExtra(AddProductActivity.DESCRIPTION_REPLY);
+
+            Product product = new Product(productName, description, Double.parseDouble(price));
+            productViewModel.insertProduct(product);
+        }
+    });
 
     @Override
     public void onProductClick(int position) {
@@ -99,7 +121,7 @@ public class ProductFragment extends Fragment implements ProductRVAdapter.OnProd
 
     private void productToEdit(int position) {
         Product product = productViewModel.getAllProducts().getValue().get(position);
-        Intent intent = new Intent(getActivity(), ProductFragment.class);
+        Intent intent = new Intent(getActivity(), AddProductActivity.class);
         intent.putExtra(PRODUCT_ID, product.getId());
         startActivity(intent);
     }

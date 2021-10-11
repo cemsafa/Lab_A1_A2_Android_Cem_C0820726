@@ -7,24 +7,15 @@
     android:orientation="vertical"
     android:layout_margin="16dp"
     android:padding="16dp"
-    tools:context=".AddProductActivity">
+    tools:context=".AddProviderActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/product_label"
-        android:text="@string/add_new_product_label"
+        android:id="@+id/provider_label"
+        android:text="@string/add_new_provider"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
-    <EditText
-        android:id="@+id/et_product_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="Product Name"
-        android:hint="@string/product_name_placeholder"
-        android:inputType="text"
-        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/et_provider_name"
@@ -36,30 +27,45 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/et_price"
+        android:id="@+id/et_provider_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="Price"
-        android:hint="@string/price_placeholder"
-        android:inputType="text"
+        android:autofillHints="Provider Email"
+        android:hint="@string/provider_email_placeholder"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp" />
 
     <EditText
+        android:id="@+id/et_provider_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_description"
-        android:inputType="textMultiLine"
-        android:minLines="6"
-        android:maxLines="6"
-        android:gravity="top|start"
-        android:scrollbars="vertical"
-        android:autofillHints="Description"
-        android:hint="@string/description_placeholder"/>
+        android:autofillHints="Provider Phone"
+        android:hint="@string/provider_phone_placeholder"
+        android:inputType="phone"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/et_provider_latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Provider Name"
+        android:hint="@string/provider_latitude_placeholder"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/et_provider_longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Longitude"
+        android:hint="@string/provider_longitude_placeholder"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_addEdit_product"
+        android:id="@+id/btn_addEdit_provider"
         android:layout_gravity="center"
         android:text="@string/save_button"/>
 

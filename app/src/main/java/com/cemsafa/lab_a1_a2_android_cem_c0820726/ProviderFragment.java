@@ -1,8 +1,11 @@
 package com.cemsafa.lab_a1_a2_android_cem_c0820726;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -25,7 +30,7 @@ import java.util.List;
  */
 public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnProviderClickListener {
 
-    private static final String PROVIDER_ID = "id";
+    public static final String PROVIDER_ID = "id";
     private ProductViewModel productViewModel;
 
     private RecyclerView recyclerView;
@@ -89,8 +94,28 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
             recyclerView.setAdapter(providerRVAdapter);
         });
 
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), AddProviderActivity.class);
+            launcher.launch(intent);
+        });
+
         return view;
     }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            String providerName = data.getStringExtra(AddProviderActivity.PROVIDER_NAME_REPLY);
+            String email = data.getStringExtra(AddProviderActivity.EMAIL_REPLY);
+            String phone = data.getStringExtra(AddProviderActivity.PHONE_REPLY);
+            String latitude = data.getStringExtra(AddProviderActivity.LATITUDE_REPLY);
+            String longitude = data.getStringExtra(AddProviderActivity.LONGITUDE_REPLY);
+
+            Provider provider = new Provider(providerName, email, Integer.parseInt(phone), Double.parseDouble(latitude), Double.parseDouble(longitude));
+            productViewModel.insertProvider(provider);
+        }
+    });
 
     @Override
     public void onProviderClick(int position) {
@@ -99,7 +124,7 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
 
     private void providerToEdit(int position) {
         Provider provider = productViewModel.getAllProviders().getValue().get(position);
-        Intent intent = new Intent(getActivity(), ProviderFragment.class);
+        Intent intent = new Intent(getActivity(), AddProviderActivity.class);
         intent.putExtra(PROVIDER_ID, provider.getId());
         startActivity(intent);
     }
