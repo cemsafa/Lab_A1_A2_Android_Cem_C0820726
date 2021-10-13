@@ -105,12 +105,13 @@ public class ProductFragment extends Fragment implements ProductRVAdapter.OnProd
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent data = result.getData();
+            String providerName = data.getStringExtra(AddProductActivity.PROVIDER_NAME_REPLY);
             String productName = data.getStringExtra(AddProductActivity.PRODUCT_NAME_REPLY);
             String price = data.getStringExtra(AddProductActivity.PRICE_REPLY);
             String description = data.getStringExtra(AddProductActivity.DESCRIPTION_REPLY);
 
-            Product product = new Product(productName, description, Double.parseDouble(price));
-            productViewModel.insertProduct(product);
+            Product product = new Product(providerName, productName, description, Double.parseDouble(price));
+            productViewModel.insert(product);
         }
     });
 

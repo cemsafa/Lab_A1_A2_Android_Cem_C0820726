@@ -14,56 +14,68 @@ public class ProductViewModel extends AndroidViewModel {
 
     private ProductRepository repository;
     private final LiveData<List<Product>> allProducts;
-    private final LiveData<List<Provider>> allProviders;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
+
         repository = new ProductRepository(application);
         allProducts = repository.getAllProducts();
-        allProviders = repository.getAllProviders();
+    }
+
+    public void insert(Product product) {
+        repository.insert(product);
     }
 
     public LiveData<List<Product>> getAllProducts() {
         return allProducts;
     }
 
-    public LiveData<List<Provider>> getAllProviders() {
-        return allProviders;
+    public LiveData<Product> getProduct(long id) {
+        return repository.getProduct(id);
     }
 
-    public LiveData<Product> getProduct(int id) {
-        return repository.getProduct(id);
+    public void update(Product product) {
+        repository.update(product);
+    }
+
+    public void delete(Product product) {
+        repository.delete(product);
+    }
+
+    public LiveData<List<Provider>> getAllProviders() {
+        return repository.getAllProviders();
     }
 
     public LiveData<Provider> getProvider(long id) {
         return repository.getProvider(id);
     }
 
-    public void insertProduct(Product product) {
-        repository.insertProduct(product);
-    }
-
-    public void insertProvider(Provider provider) {
-        repository.insertProvider(provider);
-    }
-
-    public void insertProducts(String providerName, List<String> productsNames) {
-        repository.insertProducts(providerName, productsNames);
-    }
-
-    public void updateProduct(Product product) {
-        repository.updateProduct(product);
+    public long insert(Provider provider) {
+        repository.insert(provider);
+        return provider.getId();
     }
 
     public void updateProvider(Provider provider) {
-        repository.updateProvider(provider);
-    }
-
-    public void deleteProduct(Product product) {
-        repository.deleteProduct(product);
+        repository.update(provider);
     }
 
     public void deleteProvider(Provider provider) {
-        repository.deleteProvider(provider);
+        repository.delete(provider);
+    }
+
+    public LiveData<List<Product>> getProductsInProvider(String provider_name) {
+        return repository.getProductsInProvider(provider_name);
+    }
+
+    public LiveData<List<ProviderWithProducts>> getProviderWithProducts() {
+        return repository.getProviderWithProducts();
+    }
+
+    public void insert(Provider provider, Product product) {
+        repository.insert(provider, product);
+    }
+
+    public void updateProductInProvider(Provider provider, Product product) {
+        repository.updateProductInProvider(provider, product);
     }
 }

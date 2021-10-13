@@ -44,7 +44,9 @@ public class ProviderRVAdapter extends RecyclerView.Adapter<ProviderRVAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Provider provider = providerList.get(position);
         holder.providerName.setText(provider.getName());
-//        holder.productCount.setText(productViewModel.getAllProducts().getValue().size());
+        productViewModel.getProductsInProvider(provider.getName()).observe(lifecycleOwner, productList -> {
+            holder.productCount.setText(String.valueOf(productList.size()));
+        });
     }
 
     @Override

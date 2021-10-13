@@ -44,10 +44,7 @@ public class ProductRVAdapter extends RecyclerView.Adapter<ProductRVAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-        long providerId = product.getProvider_id();
-        productViewModel.getProvider(providerId).observe(lifecycleOwner, provider -> {
-            holder.providerName.setText(provider.getName());
-        });
+        holder.providerName.setText(product.getProvider_name());
     }
 
     @Override

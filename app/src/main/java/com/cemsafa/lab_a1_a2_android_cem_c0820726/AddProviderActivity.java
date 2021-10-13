@@ -86,7 +86,7 @@ public class AddProviderActivity extends AppCompatActivity {
             Provider provider = new Provider();
             provider.setName(providerName);
             provider.setEmail(providerEmail);
-            provider.setPhone(Integer.parseInt(phone));
+            provider.setPhone(phone);
             provider.setLatitude(Double.parseDouble(latitude));
             provider.setLongitude(Double.parseDouble(longitude));
             productViewModel.updateProvider(provider);

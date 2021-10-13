@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey;
 public class Provider {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private long id;
 
     @NonNull
     private String name;
 
     private String email;
 
-    private Integer phone;
+    private String phone;
 
     private Double latitude;
 
@@ -26,12 +26,7 @@ public class Provider {
     @Ignore
     public Provider() {}
 
-    @Ignore
-    public Provider(@NonNull String name) {
-        this.name = name;
-    }
-
-    public Provider(@NonNull String name, String email, Integer phone, Double latitude, Double longitude) {
+    public Provider(@NonNull String name, String email, String phone, Double latitude, Double longitude) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -39,11 +34,11 @@ public class Provider {
         this.longitude = longitude;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -64,11 +59,11 @@ public class Provider {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

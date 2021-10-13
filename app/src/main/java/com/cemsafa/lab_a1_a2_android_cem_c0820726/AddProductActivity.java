@@ -18,6 +18,7 @@ public class AddProductActivity extends AppCompatActivity {
     public static final String PRODUCT_NAME_REPLY = "product_name_reply";
     public static final String PRICE_REPLY = "price_reply";
     public static final String DESCRIPTION_REPLY = "description_reply";
+    public static final String PROVIDER_NAME_REPLY = "provider_name_reply";
 
     private EditText productNameET, providerNameET, priceET, descriptionET;
     private TextView productLabel;
@@ -80,14 +81,21 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
+        if (providerName.isEmpty()) {
+            providerNameET.setError("Provider must have a value");
+            providerNameET.requestFocus();
+            return;
+        }
+
         if (isEditing) {
             Product product = new Product();
             product.setName(productName);
             product.setPrice(Double.parseDouble(price));
             product.setDescription(description);
-            productViewModel.updateProduct(product);
+            productViewModel.update(product);
         } else {
             Intent replyIntent = new Intent();
+            replyIntent.putExtra(PROVIDER_NAME_REPLY, providerName);
             replyIntent.putExtra(PRODUCT_NAME_REPLY, productName);
             replyIntent.putExtra(PRICE_REPLY, price);
             replyIntent.putExtra(DESCRIPTION_REPLY, description);

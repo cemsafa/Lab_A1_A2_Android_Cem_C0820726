@@ -12,4 +12,17 @@ public class ProviderWithProducts {
 
     @Relation(entity = Product.class, parentColumn = "id", entityColumn = "provider_id")
     public List<Product> products;
+
+    public ProviderWithProducts(Provider provider, List<Product> products) {
+        this.provider = provider;
+        this.products = products;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
 }

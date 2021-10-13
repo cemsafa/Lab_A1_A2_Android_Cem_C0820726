@@ -112,8 +112,21 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
             String latitude = data.getStringExtra(AddProviderActivity.LATITUDE_REPLY);
             String longitude = data.getStringExtra(AddProviderActivity.LONGITUDE_REPLY);
 
-            Provider provider = new Provider(providerName, email, Integer.parseInt(phone), Double.parseDouble(latitude), Double.parseDouble(longitude));
-            productViewModel.insertProvider(provider);
+            Provider provider = new Provider();
+            provider.setName(providerName);
+            if (email != null) {
+                provider.setEmail(email);
+            }
+            if (phone != null) {
+                provider.setPhone(phone);
+            }
+            if (latitude != null) {
+                provider.setLatitude(Double.parseDouble(latitude));
+            }
+            if (longitude != null) {
+                provider.setLongitude(Double.parseDouble(longitude));
+            }
+            productViewModel.insert(provider);
         }
     });
 

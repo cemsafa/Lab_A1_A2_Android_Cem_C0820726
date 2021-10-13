@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProviderWithProducts;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.util.ProductDatabase;
 
 import java.util.ArrayList;
@@ -15,70 +16,85 @@ public class ProductRepository {
 
     private ProductDao productDao;
     private LiveData<List<Product>> allProducts;
-    private LiveData<List<Provider>> allProviders;
+    private LiveData<List<ProviderWithProducts>> providerWithProducts;
 
     public ProductRepository(Application application) {
         ProductDatabase productDatabase = ProductDatabase.getInstance(application);
         productDao = productDatabase.productDao();
         allProducts = productDao.getAllProducts();
-        allProviders = productDao.getAllProviders();
+        providerWithProducts = productDao.getProviderWithProducts();
+    }
+
+    public void insert(Product product) {
+        ProductDatabase.dbWriteExecutor.execute(() -> {
+            productDao.insert(product);
+        });
     }
 
     public LiveData<List<Product>> getAllProducts() {
         return allProducts;
     }
 
-    public LiveData<List<Provider>> getAllProviders() { return allProviders; }
-
-    public LiveData<Product> getProduct(int id) {
+    public LiveData<Product> getProduct(long id) {
         return productDao.getProduct(id);
     }
 
-    public LiveData<Provider> getProvider(long id) { return productDao.getProvider(id); }
-
-    public void insertProduct(Product product) {
+    public void update(Product product) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.insertProduct(product);
+            productDao.update(product);
         });
     }
 
-    public void insertProvider(Provider provider) {
+    public void delete(Product product) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.insertProvider(provider);
+            productDao.delete(product);
         });
     }
 
-    public void insertProducts(String providerName, List<String> productsNames) {
+    public LiveData<List<Provider>> getAllProviders() {
+        return productDao.getAllProviders();
+    }
+
+    public LiveData<Provider> getProvider(long id) {
+        return productDao.getProvider(id);
+    }
+
+    public long insert(Provider provider) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            List<Product> products = new ArrayList<>(productsNames.size());
-            for (String name : productsNames) {
-                products.add(new Product(name));
-            }
-            productDao.insertProducts(new Provider(providerName), products);
+            productDao.insert(provider);
+        });
+        return provider.getId();
+    }
+
+    public void update(Provider provider) {
+        ProductDatabase.dbWriteExecutor.execute(() -> {
+            productDao.update(provider);
         });
     }
 
-    public void updateProduct(Product product) {
+    public void delete(Provider provider) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.updateProduct(product);
+            productDao.delete(provider);
         });
     }
 
-    public void updateProvider(Provider provider) {
+    public LiveData<List<Product>> getProductsInProvider(String provider_name) {
+        return productDao.getProductsInProvider(provider_name);
+    }
+
+    public LiveData<List<ProviderWithProducts>> getProviderWithProducts() {
+        return productDao.getProviderWithProducts();
+    }
+
+    public void insert(Provider provider, Product product) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.updateProvider(provider);
+            productDao.insert(provider, product);
         });
     }
 
-    public void deleteProduct(Product product) {
+    public void updateProductInProvider(Provider provider, Product product) {
         ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.deleteProduct(product);
-        });
-    }
-
-    public void deleteProvider(Provider provider) {
-        ProductDatabase.dbWriteExecutor.execute(() -> {
-            productDao.deleteProvider(provider);
+            productDao.updateProductInProvider(provider, product);
         });
     }
 }
