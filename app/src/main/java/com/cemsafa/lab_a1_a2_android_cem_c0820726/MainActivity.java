@@ -37,15 +37,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         tabLayout.setOnTabSelectedListener(this);
-
-//        String provider_name = "apple";
-//
-//        Product product = new Product();
-//        product.setName("iphone");
-//        product.setProvider_name(provider_name);
-//        Provider provider = new Provider();
-//        provider.setName(provider_name);
-//        productViewModel.insert(provider, product);
     }
 
     @Override

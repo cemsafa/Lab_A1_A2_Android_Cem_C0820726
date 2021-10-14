@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -111,7 +112,9 @@ public class ProductFragment extends Fragment implements ProductRVAdapter.OnProd
             String description = data.getStringExtra(AddProductActivity.DESCRIPTION_REPLY);
 
             Product product = new Product(providerName, productName, description, Double.parseDouble(price));
-            productViewModel.insert(product);
+            Provider provider = new Provider();
+            provider.setName(providerName);
+            productViewModel.insert(provider, product);
         }
     });
 

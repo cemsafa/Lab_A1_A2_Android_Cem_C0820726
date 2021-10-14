@@ -55,11 +55,11 @@ public class ProductViewModel extends AndroidViewModel {
         return provider.getId();
     }
 
-    public void updateProvider(Provider provider) {
+    public void update(Provider provider) {
         repository.update(provider);
     }
 
-    public void deleteProvider(Provider provider) {
+    public void delete(Provider provider) {
         repository.delete(provider);
     }
 

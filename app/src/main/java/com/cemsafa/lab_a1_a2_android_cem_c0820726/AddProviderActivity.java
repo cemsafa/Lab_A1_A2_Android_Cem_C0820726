@@ -26,7 +26,7 @@ public class AddProviderActivity extends AppCompatActivity {
     private TextView providerLabel;
 
     private boolean isEditing = false;
-    private int providerId = 0;
+    private long providerId = 0;
     private Provider providerToUpdate;
 
     private ProductViewModel productViewModel;
@@ -51,7 +51,7 @@ public class AddProviderActivity extends AppCompatActivity {
         });
 
         if (getIntent().hasExtra(ProviderFragment.PROVIDER_ID)) {
-            providerId = getIntent().getIntExtra(ProviderFragment.PROVIDER_ID, 0);
+            providerId = getIntent().getLongExtra(ProviderFragment.PROVIDER_ID, 0);
 
             productViewModel.getProvider(providerId).observe(this, provider -> {
                 if (provider != null) {
@@ -82,6 +82,30 @@ public class AddProviderActivity extends AppCompatActivity {
             return;
         }
 
+        if (providerEmail.isEmpty()) {
+            providerEmailET.setError("Email must have a value");
+            providerEmailET.requestFocus();
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            providerPhoneET.setError("Phone must have a value");
+            providerPhoneET.requestFocus();
+            return;
+        }
+
+        if (latitude.isEmpty()) {
+            latitudeET.setError("Latitude must have a value");
+            latitudeET.requestFocus();
+            return;
+        }
+
+        if (longitude.isEmpty()) {
+            longitudeET.setError("Longitude must have a value");
+            longitudeET.requestFocus();
+            return;
+        }
+
         if (isEditing) {
             Provider provider = new Provider();
             provider.setName(providerName);
@@ -89,7 +113,7 @@ public class AddProviderActivity extends AppCompatActivity {
             provider.setPhone(phone);
             provider.setLatitude(Double.parseDouble(latitude));
             provider.setLongitude(Double.parseDouble(longitude));
-            productViewModel.updateProvider(provider);
+            productViewModel.update(provider);
         } else {
             Intent replyIntent = new Intent();
             replyIntent.putExtra(PROVIDER_NAME_REPLY, providerName);

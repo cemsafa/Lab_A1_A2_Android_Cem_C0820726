@@ -114,18 +114,10 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
 
             Provider provider = new Provider();
             provider.setName(providerName);
-            if (email != null) {
-                provider.setEmail(email);
-            }
-            if (phone != null) {
-                provider.setPhone(phone);
-            }
-            if (latitude != null) {
-                provider.setLatitude(Double.parseDouble(latitude));
-            }
-            if (longitude != null) {
-                provider.setLongitude(Double.parseDouble(longitude));
-            }
+            provider.setEmail(email);
+            provider.setPhone(phone);
+            provider.setLatitude(Double.parseDouble(latitude));
+            provider.setLongitude(Double.parseDouble(longitude));
             productViewModel.insert(provider);
         }
     });
@@ -136,9 +128,11 @@ public class ProviderFragment extends Fragment implements ProviderRVAdapter.OnPr
     }
 
     private void providerToEdit(int position) {
-        Provider provider = productViewModel.getAllProviders().getValue().get(position);
-        Intent intent = new Intent(getActivity(), AddProviderActivity.class);
-        intent.putExtra(PROVIDER_ID, provider.getId());
-        startActivity(intent);
+        productViewModel.getAllProviders().observe(lifecycleOwner, providers -> {
+            Provider provider = providers.get(position);
+            Intent intent = new Intent(getActivity(), AddProviderActivity.class);
+            intent.putExtra(PROVIDER_ID, provider.getId());
+            startActivity(intent);
+        });
     }
 }

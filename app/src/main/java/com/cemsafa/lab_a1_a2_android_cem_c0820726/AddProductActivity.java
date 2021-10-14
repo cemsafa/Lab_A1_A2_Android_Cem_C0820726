@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Product;
 import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.ProductViewModel;
+import com.cemsafa.lab_a1_a2_android_cem_c0820726.model.Provider;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class AddProductActivity extends AppCompatActivity {
     private TextView productLabel;
 
     private boolean isEditing = false;
-    private int productId = 0;
+    private long productId = 0;
     private long providerId = 0;
     private Product productToUpdate;
 
@@ -49,7 +50,7 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
         if (getIntent().hasExtra(ProductFragment.PRODUCT_ID)) {
-            productId = getIntent().getIntExtra(ProductFragment.PRODUCT_ID, 0);
+            productId = getIntent().getLongExtra(ProductFragment.PRODUCT_ID, 0);
 
             productViewModel.getProduct(productId).observe(this, product -> {
                 if (product != null) {
@@ -87,12 +88,27 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
+        if (price.isEmpty()) {
+            priceET.setError("Price must have a value");
+            priceET.requestFocus();
+            return;
+        }
+
+        if (description.isEmpty()) {
+            descriptionET.setError("Description must have a value");
+            descriptionET.requestFocus();
+            return;
+        }
+
         if (isEditing) {
             Product product = new Product();
+            Provider provider = new Provider();
+            provider.setId(productToUpdate.getProvider_id());
+            provider.setName(productToUpdate.getProvider_name());
             product.setName(productName);
             product.setPrice(Double.parseDouble(price));
             product.setDescription(description);
-            productViewModel.update(product);
+            productViewModel.updateProductInProvider(provider, product);
         } else {
             Intent replyIntent = new Intent();
             replyIntent.putExtra(PROVIDER_NAME_REPLY, providerName);
